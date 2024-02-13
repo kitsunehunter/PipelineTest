@@ -21,14 +21,42 @@
   <body class="homepage">
     <script>
       window.onload = function () {
-        var currentTime = new Date().getHours();
         var greeting = document.getElementById("greeting");
+        var clock = document.getElementById("clock");
 
-        if (currentTime < 12) {
-          greeting.innerHTML = "Good Morning, Xavier";
-        } else {
-          greeting.innerHTML = "Good Afternoon, Xavier";
+        function updateClock() {
+          var now = new Date();
+          var hours = now.getHours();
+          var minutes = now.getMinutes();
+          var seconds = now.getSeconds();
+
+          // Add leading zero to minutes and seconds if less than 10
+          minutes = (minutes < 10 ? "0" : "") + minutes;
+          seconds = (seconds < 10 ? "0" : "") + seconds;
+
+          // Format hours for 12-hour clock
+          var ampm = hours < 12 ? "AM" : "PM";
+          hours = hours > 12 ? hours - 12 : hours;
+          hours = hours == 0 ? 12 : hours;
+
+          // Update clock display
+          clock.innerHTML = hours + ":" + minutes + ":" + seconds + " " + ampm;
+
+          // Update greeting based on current time
+          if (hours < 12) {
+            greeting.innerHTML = "Good Morning";
+          } else if (hours < 18) {
+            greeting.innerHTML = "Good Afternoon";
+          } else {
+            greeting.innerHTML = "Good Evening";
+          }
         }
+
+        // Call updateClock every second
+        setInterval(updateClock, 1000);
+
+        // Initial call to update clock and greeting
+        updateClock();
       };
     </script>
 
@@ -45,7 +73,7 @@
           <div class="container">
             <section>
               <header class="major">
-                <h2>Welcome to COMP367</h2>
+                <h2 id="clock"></h2>
                 <h2 id="greeting"></h2>
               </header>
             </section>
